@@ -63,3 +63,8 @@
   background: #57A957;
   border: 1px solid #4c964d;
   color: #FFF; }
+
+.contact {
+  float: left;
+  font-size: 75%;
+  margin-right: 3em; }
