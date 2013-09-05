@@ -4,6 +4,13 @@ title:  "Guy Lewis Steele's Wordsplit, Redux"
 date:   2013-09-05 07:00:00
 tags:   algorithms clojure parallelism fork/join
 ---
+###UPDATE: 05 September 2013 (later)
+
+Thanks to some prodding from [Jozef Wagner][3], I reworked the solution to use [Clojure reducers][4] for the combine step.
+
+Speedup now nearly scales linearly with processor count.
+
+---
 
 #### previously on 24 ...
 
@@ -15,20 +22,11 @@ But the final concatenation of segments was lazy. Realizing that laziness was co
 
 #### the turn
 Realizing that laziness in the fork/join pool caused a lot of memory thrashing when combining segments.
-To fix, we slightly modify the shape of our Segment and the approach to combine.
-
-The key is for Segment to hold a vector of vector of words rather than a vector of words,
-thus avoiding a new temporary vector the size of the sum of the number of words in the two segments for every combine.
+To fix, we replace the combine with a [reducers/cat][6].
 
 #### the diff
 
 {% highlight diff %}
- (defn maybe-word [s]
-   (if (str/blank? s)
-     []
--    [s]))
-+    [[s]]))
- 
  (defn wordstate->words [{:keys [s l m r] :as word-state}]
 -  (condp = (type word-state)
 -    Chunk (maybe-word s)
@@ -36,18 +34,18 @@ thus avoiding a new temporary vector the size of the sum of the number of words 
 +  (reduce into []
 +          (condp = (type word-state)
 +            Chunk (maybe-word s)
-+            Segment (reduce into [] [(maybe-word l)
-+                                     m
-+                                     (maybe-word r)]))))
++            Segment (reduce r/cat [(maybe-word l)
++                                   m
++                                   (maybe-word r)]))))
  
  (defmethod plus [Segment Segment] [^Segment a ^Segment b]
    (segment (.-l a)
 -           (vec (concat (.-m a)
 -                          (maybe-word (str (.-r a) (.-l b)))
 -                          (.-m b)))
-+           (reduce into [] [(.-m a)
-+                            (maybe-word (str (.-r a) (.-l b)))
-+                            (.-m b)])
++           (reduce r/cat [(.-m a)
++                          (maybe-word (str (.-r a) (.-l b)))
++                          (.-m b)])
             (.-r b)))
  
  (defn string->wordstate [^Pattern re ^String s]
@@ -63,14 +61,13 @@ thus avoiding a new temporary vector the size of the sum of the number of words 
            (segment (first splits)
                     (->> (subvec splits 1 (- splitcount (if end-match? 0 1)))
 -                        (remove str/blank?))
-+                        (remove str/blank?)
-+                        vec
-+                        vector)
++                        (r/remove str/blank?)
++                        (into [])
                     (if end-match? "" last-split)))))))
 {% endhighlight %}
 
 There was also a change to foldstr of marginal performance value.
-Here is the [full diff][2].
+Here is the [full diff][2]. (*update* [second diff][5])
 
 ####results
 
@@ -93,28 +90,35 @@ Here is the [full diff][2].
 
 (bench (def splits (into [] (split #"\s" text))))
 ;; =>                 Evaluation count : 300 in 60 samples of 5 calls.
-;;          Execution time sample mean : 250.586529 ms
-;;                 Execution time mean : 250.600045 ms
-;; Execution time sample std-deviation : 1.919389 ms
-;;        Execution time std-deviation : 1.949451 ms
-;;       Execution time lower quantile : 246.714536 ms ( 2.5%)
-;;       Execution time upper quantile : 254.311638 ms (97.5%)
+;;          Execution time sample mean : 243.860320 ms
+;;                 Execution time mean : 243.865287 ms
+;; Execution time sample std-deviation : 1.094317 ms
+;;        Execution time std-deviation : 1.104638 ms
+;;       Execution time lower quantile : 242.080905 ms ( 2.5%)
+;;       Execution time upper quantile : 246.585706 ms (97.5%)
+;;                       Overhead used : 1.121332 ns
 
 (bench (def splits (psplit #"\s" text)))
-;; =>                 Evaluation count : 600 in 60 samples of 10 calls.
-;;          Execution time sample mean : 101.433418 ms
-;;                 Execution time mean : 101.436171 ms
-;; Execution time sample std-deviation : 1.211702 ms
-;;        Execution time std-deviation : 1.224329 ms
-;;       Execution time lower quantile : 99.093977 ms ( 2.5%)
-;;       Execution time upper quantile : 103.628691 ms (97.5%)
+;; =>                 Evaluation count : 960 in 60 samples of 16 calls.
+;;          Execution time sample mean : 63.050636 ms
+;;                 Execution time mean : 63.057317 ms
+;; Execution time sample std-deviation : 1.186007 ms
+;;        Execution time std-deviation : 1.204245 ms
+;;       Execution time lower quantile : 61.012374 ms ( 2.5%)
+;;       Execution time upper quantile : 65.952893 ms (97.5%)
+;;                       Overhead used : 1.121332 ns
 
 ;; note: psplit returns a vector, split returns a lazy seq
 {% endhighlight %}
 
 ####conclusion
-Previously, we lost almost all speedup due to serially realizing lazy seqs.  
-There are certainly gains yet to make with regard to efficient use of memory, but the concept seems sound.
+Previously, we lost almost all speedup due to serially realizing lazy seqs and intermediate combines.  
+With GLS' monoid and [reducers][4], we gain a massive parallel speedup.
+
 
 [1]: http://pmbauer.github.io/2013/09/03/gls-wordsplit-and-the-reducers
 [2]: https://github.com/pmbauer/blogcode.text/commit/5798a79e5ba092fe00f067938cdb71883903217d
+[3]: https://github.com/wagjo
+[4]: https://github.com/clojure/clojure/blob/master/src/clj/clojure/core/reducers.clj
+[5]: https://github.com/pmbauer/blogcode.text/commit/9e04d90546f64cd66f5fdcd099381106842a4120
+[6]: http://clojure.github.io/clojure/clojure.core-api.html#clojure.core.reducers/cat
