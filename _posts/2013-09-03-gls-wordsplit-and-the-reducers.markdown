@@ -4,6 +4,12 @@ title:  "Guy Lewis Steele's Wordsplit and the Reducers"
 date:   2013-09-03 08:00:00
 tags:   algorithms clojure parallelism fork/join
 ---
+######UPDATE: 05 September 2013
+
+[Guy Lewis Steele's Wordsplit, Redux][17], in which we address the issue raised below.
+
+---
+
 ######UPDATE: 04 September 2013
 *A reader pointed out an issue with the benchmark, namely some lazy seqs not being realized.
 I updated the [code][15] and [post][16]; now the parallel speedup, while existing, is not as impressive as previously measured.
@@ -215,9 +221,7 @@ It uses the combine function (`plus`) at the partition boundaries **and** at the
 **Update to clarify:** *You can specify a reducing function separate from the combine function, but each intermediate reduction must be consumable by combine.*
 
 It is an elegant simplification that works well for some domains, especially when the accumulator is a primitive.  
-But the simplification is poorly suited if the reduce function allocates new objects for each reduction step. Welcome to garbage-collection purgatory.
-
-![bad time]({{ BASE_PATH }}/assets/img/heapsbadtime2.jpg)
+But the simplification is poorly suited if the reduce function allocates lots of heap memory for each reduction step. Welcome to garbage-collection purgatory.
 
 ###batch it in place
 Plusing each char onto the accumulated result is a non-starter.
@@ -308,6 +312,8 @@ The memory-copying overhead when two Segments are combined is quite significant.
 
 ###to be continued ...
 
+[Guy Lewis Steele's Wordsplit, Redux][17], in which we address the issue above.
+
 [1]: http://www.cs.nott.ac.uk/~gmh/icfp09.html
 [2]: http://vimeo.com/6624203
 [3]: {{ BASE_URL }}/assets/slides/ICFPAugust2009Steele.pdf
@@ -324,3 +330,4 @@ The memory-copying overhead when two Segments are combined is quite significant.
 [14]: https://gist.github.com/pmbauer/6422365/raw/83967e80169f998ee0a8f5f36b7e86f0c2daf384/metrics
 [15]: https://github.com/pmbauer/blogcode.text/commit/63da0fd5a9bfc769759e41c6fbe7613cdc4c6f9f
 [16]: https://github.com/pmbauer/pmbauer.github.io/commits/master
+[17]: http://pmbauer.github.io/2013/09/05/gls-wordsplit-redux
