@@ -1,0 +1,82 @@
+==================================================================
+https://keybase.io/pmbauer
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://pmbauer.github.io
+  * I am pmbauer (https://keybase.io/pmbauer) on keybase.
+  * I have a public key with fingerprint 0796 FBC2 A5E0 4F53 5135  D390 EE05 9BB4 B16B 1777
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "client": {
+            "name": "keybase.io node.js client",
+            "version": "0.4.11"
+        },
+        "key": {
+            "fingerprint": "0796fbc2a5e04f535135d390ee059bb4b16b1777",
+            "host": "keybase.io",
+            "key_id": "EE059BB4B16B1777",
+            "uid": "f0e36c183de1d1dd803b244c93046300",
+            "username": "pmbauer"
+        },
+        "merkle_root": {
+            "ctime": 1405448296,
+            "hash": "bd963d085c0cdf0f366d31edc17f083caae4bc4d6167dfd0a5a0735ffc4d3812101ad0af63a50e94a3d86f9bdd9ad31227178110477c6c024932af8a1ced70b4",
+            "seqno": 28468
+        },
+        "service": {
+            "hostname": "pmbauer.github.io",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1405448359,
+    "expire_in": 157680000,
+    "prev": "6f6d84b66e348e12067e8dbddf6b5f0b718fde97b6f3e1c75909b74ac742127f",
+    "seqno": 12,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFVkntQVFUcx2ERZUvFSWYCX+NcUFOY7Zz7vlv0Bw8fTYOMJi+R7d57zt29PPZu
+uwuLPAplZKIRJR01oxRtJMF8rK5NtsQMAtaIIwzmk1mmfJduJZlaWXav0RTnr3N+
+v8/5/n7f3znNU6IiTJE/RrcE/CXP+yL7v5ciVva5PqkmJA2tJazVhFyqYqfX2DnF
+MkxYiRK8VhI92KJqc50awpZiz9wxJoWowG6Pqjl1ClhoC4REbYrBG7cV1WnHbpdb
+NcQIwAmsIsmkyGBAKwzFQIpBlAAwBowgSbQEWQlyHKdrOjSPd1xZ4qmmTUV6NDNT
+59PS6DTIpo3x5U8TCsAUK0OeQhgiiBAPKImkaVmgAM1SABigB7vHPLnKJLEcu412
+y7C7pBTb3Jr21LTsVQ0C0oChaZ4UWL0h0ePQ70hIYCkEeEYGMlKAQrEsoiBGMuQU
+wFOyKGJakmnEQpZDCgIiIwKOYhRFj1E8JCGAoh5VWEpkABZokUI8qwgSQoKoC5Ek
+BzkeQkBznMzKgKQFihQVXoQyRhyQaN2BB7/p1AgrydMsX2sc3RWqjI22jaGN92ax
+q15HufTP/FxuzavJWqmedni9Lo/VcO5d69L5Y4QPS7YxKZukOpH+cP9/Wqij46dC
+MUIKgStdqhvbVINgOJYH+jIK4Qq9CKuwiKcllsUUzWNIApbDPNKtKqzEKEDiIK8g
+LHASq1AYyhwjAEHiaFHmaBKSnPKfV0jqjYp2XdOj2p2it9yNidpG06wJEZGmiInR
+JuPzRjxjnvbvj34Uin2S/aLSkJN+rCg5e/WuSyc+yI4bqbjln5IY7gysvnv43Wjb
+xcD80HO7cvIOLMgrW3puzurhvVMtvz4pnESfb3zn4+Y57y3b/n59QWxjUcpLq17d
+2HK+8ufOxgFxZau5pLapnrrv+7103akju2o61iTO67qUt//6+eDiNx483uZq2/vC
+ybMxt7sOjwRHB3+JmpxYtb4rY8MZ8VZbbvj0D0eK0aLe0Y92k6NfHnrb5wvk/dFR
+s3j6gYQrw6Z9U9We3U7GXzyw/9G1tqzyVnj15VA4vy5JXSReb1/ffjG3/rMM87WL
+wckHq86Zu4n8wq/iWhpWpRdsmX5zcq/c2T+7eUjZPLDjzBA949Mm9erynVeaehck
+3T5YcHTh8EOpcOvMn2JmJg1W35p24459xkjB3de/7oy7EAgOdZiaLtQQ6a1Tf+sr
+mXht+8qM1J6Hf/ValzyI6V/Y8phKTjIHktNDwbqj90JJd95aEjqd8EX3t/nZI1lC
+64TgntKq1LlUTtviU/bjqUsHG5Z1aVnrdvYs/7zjUvGMxC0Nj3Mvn3w0IXNn/o77
+h1Y4R+KbK9WJ3UWT4p+955h+PHDMvWfzzZoN4XUf5qQdf23TfHj9bGxm65x9fAfI
+7PWf2B4fbnvgj46yumwJqy5/F6rb7Xulb2uVObd2XvaNmPb2HhWFq5lNs5KjRgs3
+3lux0LHmG39D+vDsbQeyKv/8Gw==
+=cyWs
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/pmbauer
+
+==================================================================
